@@ -13,7 +13,7 @@
 #include <stdint.h>
 #include "stm32f2xx.h"
 
-#define TEST_DEFINE_FOR_GIT                             101500
+#define TEST_DEFINE_FOR_GIT                             100500
 
 /********************************************************************************/
 /*                                                                            	*/
