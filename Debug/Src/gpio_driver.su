@@ -1,4 +1,4 @@
-core_cm3.h:1511:22:__NVIC_EnableIRQ	16	static
+core_cm4.h:1688:22:__NVIC_EnableIRQ	16	static
 gpio_driver.c:23:13:hal_gpio_configure_pin_mode	24	static
 gpio_driver.c:38:13:hal_gpio_configure_pin_otype	24	static
 gpio_driver.c:51:13:hal_gpio_configure_pin_speed	24	static

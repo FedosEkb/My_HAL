@@ -7,7 +7,7 @@
 #include <stdint.h>
 
 /* include MCU  specific header*/
-#include "stm32f2xx.h"
+#include "stm32f4xx.h"
 
 
 /*				Macros for GPIO initialization			*/

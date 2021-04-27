@@ -11,7 +11,7 @@
 #include "gpio_driver.h"
 #include "SPI_driver.h"
 #include <stdint.h>
-#include "stm32f2xx.h"
+#include "stm32f4xx.h"
 
 #define TEST_DEFINE_FOR_GIT                             100500
 
