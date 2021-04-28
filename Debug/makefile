@@ -60,8 +60,8 @@ all: main-build
 main-build: My_HAL.elf secondary-outputs
 
 # Tool invocations
-My_HAL.elf: $(OBJS) $(USER_OBJS) C:\Users\User\STM32CubeIDE\workspace_1.6.1\My_HAL\STM32F207IGHX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "My_HAL.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m3 -T"C:\Users\User\STM32CubeIDE\workspace_1.6.1\My_HAL\STM32F207IGHX_FLASH.ld" --specs=nosys.specs -Wl,-Map="My_HAL.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+My_HAL.elf: $(OBJS) $(USER_OBJS) C:\cubeIDEwork\My_HAL\STM32F207IGHX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "My_HAL.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m3 -T"C:\cubeIDEwork\My_HAL\STM32F207IGHX_FLASH.ld" --specs=nosys.specs -Wl,-Map="My_HAL.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
