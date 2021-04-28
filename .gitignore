@@ -5,3 +5,11 @@
 /.settings/
 /.cproject
 /.project
+*.o
+*.list
+*.map
+*.d
+makefile
+*.elf
+*.xml
+
