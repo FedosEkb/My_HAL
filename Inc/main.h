@@ -42,15 +42,15 @@
 #define GPIO_BUTTON_PORT  GPIOA
 
 /* Macros used for Configuring gpios for SPI functionality */
-#define GPIOB_PIN_13      13
+#define GPIOI_PIN_1      1
 
-#define GPIOB_PIN_14      14
+#define GPIOI_PIN_2      2
 
-#define GPIOB_PIN_15      15
+#define GPIOI_PIN_3      3
 
-#define SPI_CLK_PIN   GPIOB_PIN_13
-#define SPI_MISO_PIN  GPIOB_PIN_14
-#define SPI_MOSI_PIN  GPIOB_PIN_15
+#define SPI_CLK_PIN   GPIOI_PIN_1
+#define SPI_MISO_PIN  GPIOI_PIN_2
+#define SPI_MOSI_PIN  GPIOI_PIN_3
 
 /* SPI alternate functionality value */
 #define GPIO_PIN_AF5_SPI2   0x05
