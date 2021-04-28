@@ -1,0 +1,7 @@
+/Debug/*
+*.ld
+/Drivers/*
+/Startup/*
+/.settings/
+/.cproject
+/.project
