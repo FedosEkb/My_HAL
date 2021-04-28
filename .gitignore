@@ -12,4 +12,4 @@
 makefile
 *.elf
 *.xml
-
+*.launch
