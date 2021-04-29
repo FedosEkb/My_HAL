@@ -66,6 +66,7 @@
 void spi_gpio_init(void);
 void led_init(void);
 void led_toggle(GPIO_TypeDef *GPIOx, uint16_t pin);
+void delay_gen(void);
 
 #if !defined(__SOFT_FP__) && defined(__ARM_FP)
   #warning "FPU is not initialized, but the project is compiling for an FPU. Please initialize the FPU before use."

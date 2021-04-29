@@ -91,8 +91,21 @@ int main(void)
 	/* Enable the IRQs in the NVIC */
 	NVIC_EnableIRQ(SPI2_IRQn);
 
+	/* Wait for user Button press before starting the communication. Toggles LED_ORANGE until then */
+	while (TestReady != SET) {
+		led_toggle(GPIOI, LED_RED);
+		//LED3 (orange)
+		delay_gen();
+	}
 
 	while (1)
+		;
+}
+
+
+void delay_gen(void) {
+	uint32_t cnt = 800000;
+	while (cnt--)
 		;
 }
 
@@ -151,17 +164,24 @@ void spi_gpio_init(void){
 }
 
 /*
- * @brief  This function handles SPI interrupt request.
- * @param  hspi: pointer to a spi_handle_t structure that contains
- *                the configuration information for SPI module.
+ * @brief  brief  This function handles EXTI15-10 interrupt request.
+ * @param  none
  * @retval none
  */
-
 void EXTI15_10_IRQHandler(void){
 	hal_gpio_clear_interrupt(GPIO_BUTTON_PIN);
 	TestReady = SET;
-	//led_toggle(GPIOI,LED_RED);
-	//led_toggle(GPIOC,LED_BLUE);
 }
+
+/*
+ * @brief  This function handles SPI2 interrupt request.
+ * @param  none
+ * @retval none
+ */
+void SPI2_IRQHandler(void) {
+	/* call the driver api to process this interrupt */
+	hal_spi_irq_handler(&SpiHandle);
+}
+
 
 
