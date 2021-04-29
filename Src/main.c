@@ -25,7 +25,15 @@
 /* SPI handle for our SPI device */
 spi_handle_t SpiHandle;
 
+int TestReady = 0;\
 
+/* slave will reply this data, when master issues read command */
+uint8_t slave_reply_data[4]={ 0x55, 0xaa, 0x55, 0xaa};
+
+/* master read/write buffers */
+uint8_t master_write_data[]={ 0xa, 0xb, 0xc, 0xd };
+
+uint8_t master_read_buffer[4];
 
 
 
@@ -47,18 +55,18 @@ int main(void)
 
 	_HAL_RCC_GPIOG_CLK_ENABLE();
 	gpio_pin_conf_t gpio_pin_conf;
-	gpio_pin_conf.pin = 15;
+	gpio_pin_conf.pin = GPIO_BUTTON_PIN;
 	gpio_pin_conf.mode = GPIO_PIN_INPUT_MODE;
 	gpio_pin_conf.op_type = GPIO_PIN_OP_TYPE_PUSHPULL;
 	gpio_pin_conf.pull = GPIO_PIN_NO_PULL_PUSH;
 	gpio_pin_conf.speed = GPIO_PIN_SPEED_MEDIUM;
-	hal_gpio_init(GPIOG,&gpio_pin_conf);
+	hal_gpio_init(GPIO_BUTTON_PORT,&gpio_pin_conf);
 
 	RCC->APB2ENR |= (1 << 14);
 	SYSCFG->EXTICR[3] &= (0b1111 << 12);
 	SYSCFG->EXTICR[3] |= (0b0110 << 12);
-	hal_gpio_configure_interrupt(15, INT_FALLING_EDGE);
-	hal_gpio_enable_interrupt(15, EXTI15_10_IRQn);
+	hal_gpio_configure_interrupt(GPIO_BUTTON_PIN, INT_FALLING_EDGE);
+	hal_gpio_enable_interrupt(GPIO_BUTTON_PIN, EXTI15_10_IRQn);
 
 	_HAL_RCC_SPI2_CLK_ENABLE();
 
@@ -142,8 +150,18 @@ void spi_gpio_init(void){
 	hal_gpio_init(GPIOI, &gpio_pin_conf);
 }
 
+/*
+ * @brief  This function handles SPI interrupt request.
+ * @param  hspi: pointer to a spi_handle_t structure that contains
+ *                the configuration information for SPI module.
+ * @retval none
+ */
+
 void EXTI15_10_IRQHandler(void){
-	hal_gpio_clear_interrupt(15);
-	led_toggle(GPIOI,LED_RED);
-	led_toggle(GPIOC,LED_BLUE);
+	hal_gpio_clear_interrupt(GPIO_BUTTON_PIN);
+	TestReady = SET;
+	//led_toggle(GPIOI,LED_RED);
+	//led_toggle(GPIOC,LED_BLUE);
 }
+
+

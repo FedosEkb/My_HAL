@@ -13,7 +13,6 @@
 #include <stdint.h>
 #include "stm32f2xx.h"
 
-#define TEST_DEFINE_FOR_GIT                             100500
 
 /********************************************************************************/
 /*                                                                            	*/
@@ -38,8 +37,8 @@
 #define EXTIx_IRQHandler           		EXTI0_IRQHandler
 
 /* Button details */
-#define GPIO_BUTTON_PIN   0										// if it for interrupt define need EXTI15 from GPIOG!!!
-#define GPIO_BUTTON_PORT  GPIOA
+#define GPIO_BUTTON_PIN   15										// if it for interrupt define need EXTI15 from GPIOG!!!
+#define GPIO_BUTTON_PORT  GPIOG
 
 /* Macros used for Configuring gpios for SPI functionality */
 #define GPIOI_PIN_1      1

@@ -9,6 +9,7 @@
 #define SPI_DRIVER_H_
 
 #include <stdint.h>
+#include "gpio_driver.h"
 
 /* include MCU  specific header*/
 #include "stm32f2xx.h"
