@@ -12,7 +12,7 @@
 #include "SPI_driver.h"
 #include <stdint.h>
 #include "stm32f2xx.h"
-
+#include "string.h"
 
 /********************************************************************************/
 /*                                                                            	*/
@@ -67,6 +67,8 @@ void spi_gpio_init(void);
 void led_init(void);
 void led_toggle(GPIO_TypeDef *GPIOx, uint16_t pin);
 void delay_gen(void);
+void assert_error(void);
+static uint16_t Buffercmp(uint8_t* pBuffer1, uint8_t* pBuffer2, uint16_t BufferLength);
 
 #if !defined(__SOFT_FP__) && defined(__ARM_FP)
   #warning "FPU is not initialized, but the project is compiling for an FPU. Please initialize the FPU before use."

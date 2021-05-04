@@ -41,7 +41,7 @@ int main(void)
 
 
 {
-	uint32_t i=0;
+	//uint32_t i=0;
 	uint8_t addcm[CMD_LENGTH];
 	uint8_t ack_buf[2];
 
@@ -97,9 +97,100 @@ int main(void)
 		//LED3 (orange)
 		delay_gen();
 	}
+	hal_gpio_write_to_pin(GPIOI, LED_RED, 0);
 
-	while (1)
-		;
+	while (1) {
+		//check for state ready
+		while (SpiHandle.State != HAL_SPI_STATE_READY)
+			;
+
+		/* Master write command */
+		addcm[0] = (uint8_t) CMD_MASTER_WRITE;
+		addcm[1] = (uint8_t) ( CMD_MASTER_WRITE >> 8);
+
+		/* first send the master write cmd to slave */
+		hal_spi_master_tx(&SpiHandle, addcm, CMD_LENGTH);
+
+		/* application can block here, or can do other task untill above tx finishes */
+		while (SpiHandle.State != HAL_SPI_STATE_READY)
+			;
+
+		/* this dealy helps for the slave to be ready with the ACK bytes */
+		delay_gen();
+
+		/* read back the ACK bytes from the slave */
+		hal_spi_master_rx(&SpiHandle, ack_buf, ACK_LEN);
+
+		/* wait untill ACK reception finishes */
+		while (SpiHandle.State != HAL_SPI_STATE_READY)
+			;
+
+		/* did we rcv the valid ACK from slave ?? */
+		if (ack_buf[1] == 0XE5 && ack_buf[0] == 0xD5) {
+			//correct ack
+			led_toggle(GPIOC, LED_BLUE);
+			memset(ack_buf, 0, 2);
+		} else {
+			//invalide ack
+			assert_error();
+			memset(ack_buf, 0, 2);
+		}
+
+		/* NOW send the data stream */
+		hal_spi_master_tx(&SpiHandle, master_write_data, DATA_LENGTH);
+		while (SpiHandle.State != HAL_SPI_STATE_READY)
+			;
+		delay_gen();
+
+		//	read from slave
+
+		/* Master READ command */
+		addcm[0] = (uint8_t) CMD_MASTER_READ;
+		addcm[1] = (uint8_t) ( CMD_MASTER_READ >> 8);
+
+		/* first send the master write cmd to slave */
+		hal_spi_master_tx(&SpiHandle, addcm, CMD_LENGTH);
+
+		/* application can block here, or can do other task untill above tx finishes */
+		while (SpiHandle.State != HAL_SPI_STATE_READY)
+			;
+
+		/* this dealy helps for the slave to be ready with the ACK bytes */
+		delay_gen();
+
+		/* read back the ACK bytes from the slave */
+		hal_spi_master_rx(&SpiHandle, ack_buf, ACK_LEN);
+
+		while (SpiHandle.State != HAL_SPI_STATE_READY)
+			;
+
+		if (ack_buf[1] == 0XE5 && ack_buf[0] == 0xD5) {
+			//correct ack
+			led_toggle(GPIOC, LED_BLUE);
+			memset(ack_buf, 0, 2); //what the hell??
+		} else {
+			//invalide ack
+			assert_error();
+			memset(ack_buf, 0, 2); //what the hell??
+		}
+
+		/* start receiving from the slave */
+		hal_spi_master_rx(&SpiHandle, master_read_buffer, DATA_LENGTH);
+
+		while (SpiHandle.State != HAL_SPI_STATE_READY)
+			;
+
+		/* compare the data rcvd form slave, with what slave supposed to send */
+		if (Buffercmp(master_read_buffer, slave_reply_data, DATA_LENGTH)) {
+			// we didnt rcv what needs to be rcvd !!! Error !
+			led_toggle(GPIOI, LED_RED);
+		} else {
+			//Rcvd correct data
+			led_toggle(GPIOC, LED_BLUE);
+		}
+
+		delay_gen();
+	}
 }
 
 
@@ -138,7 +229,7 @@ void spi_gpio_init(void){
 
 	_HAL_RCC_GPIOI_CLK_ENABLE();
 
-	/* configure GPIOB_PIN_13 for SPI CLK functionality */
+	/* configure GPIOI_PIN_1 for SPI CLK functionality */
 	gpio_pin_conf.pin = SPI_CLK_PIN;
 	gpio_pin_conf.mode = GPIO_PIN_ALT_FUN_MODE;
 	gpio_pin_conf.op_type = GPIO_PIN_OP_TYPE_PUSHPULL;
@@ -148,19 +239,40 @@ void spi_gpio_init(void){
 	hal_gpio_set_alt_function(GPIOI, SPI_CLK_PIN, GPIO_PIN_AF5_SPI2);
 	hal_gpio_init(GPIOI,&gpio_pin_conf);
 
-	/* configure GPIOB_PIN_14 for SPI MISO functionality */
+	/* configure GPIOI_PIN_2 for SPI MISO functionality */
 	gpio_pin_conf.pin = SPI_MISO_PIN;
 	gpio_pin_conf.pull = GPIO_PIN_PULL_UP;
 
 	hal_gpio_set_alt_function(GPIOI, SPI_MISO_PIN, GPIO_PIN_AF5_SPI2);
 	hal_gpio_init(GPIOI, &gpio_pin_conf);
 
-	/* configure GPIOB_PIN_15 for SPI MISO functionality */
+	/* configure GPIOI_PIN_3 for SPI MISO functionality */
 	gpio_pin_conf.pin = SPI_MOSI_PIN;
 	gpio_pin_conf.pull = GPIO_PIN_PULL_UP;
 
 	hal_gpio_set_alt_function(GPIOI, SPI_MOSI_PIN, GPIO_PIN_AF5_SPI2);
 	hal_gpio_init(GPIOI, &gpio_pin_conf);
+}
+
+void assert_error(void) {
+	while (1) {
+		led_toggle(GPIOI, LED_RED);
+		delay_gen();
+	}
+}
+
+static uint16_t Buffercmp(uint8_t* pBuffer1, uint8_t* pBuffer2, uint16_t BufferLength)
+{
+  while (BufferLength--)
+  {
+    if((*pBuffer1) != *pBuffer2)
+    {
+      return BufferLength;
+    }
+    pBuffer1++;
+    pBuffer2++;
+  }
+	return 0;
 }
 
 /*
@@ -182,6 +294,7 @@ void SPI2_IRQHandler(void) {
 	/* call the driver api to process this interrupt */
 	hal_spi_irq_handler(&SpiHandle);
 }
+
 
 
 
