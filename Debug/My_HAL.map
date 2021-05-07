@@ -501,26 +501,25 @@ LOAD c:/st/stm32cubeide_1.6.1/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.exte
  .text.__NVIC_EnableIRQ
                 0x0000000008000750       0x38 Src/gpio_driver.o
  .text.hal_gpio_configure_pin_mode
-                0x0000000008000788       0x40 Src/gpio_driver.o
+                0x0000000008000788       0x42 Src/gpio_driver.o
  .text.hal_gpio_configure_pin_otype
-                0x00000000080007c8       0x2a Src/gpio_driver.o
+                0x00000000080007ca       0x2a Src/gpio_driver.o
  .text.hal_gpio_configure_pin_speed
-                0x00000000080007f2       0x2c Src/gpio_driver.o
+                0x00000000080007f4       0x2c Src/gpio_driver.o
  .text.hal_gpio_configure_pin_resistor
-                0x000000000800081e       0x2c Src/gpio_driver.o
+                0x0000000008000820       0x2c Src/gpio_driver.o
  .text.hal_gpio_set_alt_function
-                0x000000000800084a       0x4e Src/gpio_driver.o
-                0x000000000800084a                hal_gpio_set_alt_function
+                0x000000000800084c       0x4e Src/gpio_driver.o
+                0x000000000800084c                hal_gpio_set_alt_function
  .text.hal_gpio_read_from_pin
-                0x0000000008000898       0x28 Src/gpio_driver.o
-                0x0000000008000898                hal_gpio_read_from_pin
+                0x000000000800089a       0x28 Src/gpio_driver.o
+                0x000000000800089a                hal_gpio_read_from_pin
  .text.hal_gpio_write_to_pin
-                0x00000000080008c0       0x48 Src/gpio_driver.o
-                0x00000000080008c0                hal_gpio_write_to_pin
+                0x00000000080008c2       0x48 Src/gpio_driver.o
+                0x00000000080008c2                hal_gpio_write_to_pin
  .text.hal_gpio_init
-                0x0000000008000908       0x5a Src/gpio_driver.o
-                0x0000000008000908                hal_gpio_init
- *fill*         0x0000000008000962        0x2 
+                0x000000000800090a       0x5a Src/gpio_driver.o
+                0x000000000800090a                hal_gpio_init
  .text.hal_gpio_configure_interrupt
                 0x0000000008000964       0x8c Src/gpio_driver.o
                 0x0000000008000964                hal_gpio_configure_interrupt
@@ -885,11 +884,11 @@ LOAD c:/st/stm32cubeide_1.6.1/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.exte
  .debug_macro   0x0000000000017f1d       0x20 Src/main.o
  .debug_macro   0x0000000000017f3d       0x82 Src/main.o
 
-.debug_line     0x0000000000000000     0x18e3
+.debug_line     0x0000000000000000     0x18e6
  .debug_line    0x0000000000000000      0x89e Src/SPI_driver.o
- .debug_line    0x000000000000089e      0x6d4 Src/gpio_driver.o
- .debug_line    0x0000000000000f72      0x8ed Src/main.o
- .debug_line    0x000000000000185f       0x84 Startup/startup_stm32f207ighx.o
+ .debug_line    0x000000000000089e      0x6d7 Src/gpio_driver.o
+ .debug_line    0x0000000000000f75      0x8ed Src/main.o
+ .debug_line    0x0000000000001862       0x84 Startup/startup_stm32f207ighx.o
 
 .debug_str      0x0000000000000000    0x85fc2
  .debug_str     0x0000000000000000    0x82017 Src/SPI_driver.o
