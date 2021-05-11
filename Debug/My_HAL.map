@@ -95,6 +95,55 @@ Discarded input sections
  .debug_macro   0x0000000000000000    0x14fe1 Src/gpio_driver.o
  .debug_macro   0x0000000000000000       0x43 Src/gpio_driver.o
  .debug_macro   0x0000000000000000       0xbe Src/gpio_driver.o
+ .group         0x0000000000000000        0xc Src/i2s_driver.o
+ .group         0x0000000000000000        0xc Src/i2s_driver.o
+ .group         0x0000000000000000        0xc Src/i2s_driver.o
+ .group         0x0000000000000000        0xc Src/i2s_driver.o
+ .group         0x0000000000000000        0xc Src/i2s_driver.o
+ .group         0x0000000000000000        0xc Src/i2s_driver.o
+ .group         0x0000000000000000        0xc Src/i2s_driver.o
+ .group         0x0000000000000000        0xc Src/i2s_driver.o
+ .group         0x0000000000000000        0xc Src/i2s_driver.o
+ .group         0x0000000000000000        0xc Src/i2s_driver.o
+ .group         0x0000000000000000        0xc Src/i2s_driver.o
+ .group         0x0000000000000000        0xc Src/i2s_driver.o
+ .group         0x0000000000000000        0xc Src/i2s_driver.o
+ .group         0x0000000000000000        0xc Src/i2s_driver.o
+ .group         0x0000000000000000        0xc Src/i2s_driver.o
+ .group         0x0000000000000000        0xc Src/i2s_driver.o
+ .group         0x0000000000000000        0xc Src/i2s_driver.o
+ .group         0x0000000000000000        0xc Src/i2s_driver.o
+ .text          0x0000000000000000        0x0 Src/i2s_driver.o
+ .data          0x0000000000000000        0x0 Src/i2s_driver.o
+ .bss           0x0000000000000000        0x0 Src/i2s_driver.o
+ .debug_info    0x0000000000000000      0x115 Src/i2s_driver.o
+ .debug_abbrev  0x0000000000000000       0x7e Src/i2s_driver.o
+ .debug_aranges
+                0x0000000000000000       0x18 Src/i2s_driver.o
+ .debug_macro   0x0000000000000000       0xea Src/i2s_driver.o
+ .debug_macro   0x0000000000000000      0xaa2 Src/i2s_driver.o
+ .debug_macro   0x0000000000000000       0x22 Src/i2s_driver.o
+ .debug_macro   0x0000000000000000       0x8e Src/i2s_driver.o
+ .debug_macro   0x0000000000000000       0x51 Src/i2s_driver.o
+ .debug_macro   0x0000000000000000      0x103 Src/i2s_driver.o
+ .debug_macro   0x0000000000000000       0x6a Src/i2s_driver.o
+ .debug_macro   0x0000000000000000      0x1df Src/i2s_driver.o
+ .debug_macro   0x0000000000000000       0x2e Src/i2s_driver.o
+ .debug_macro   0x0000000000000000       0x22 Src/i2s_driver.o
+ .debug_macro   0x0000000000000000       0x1c Src/i2s_driver.o
+ .debug_macro   0x0000000000000000       0x22 Src/i2s_driver.o
+ .debug_macro   0x0000000000000000       0xc3 Src/i2s_driver.o
+ .debug_macro   0x0000000000000000      0xe49 Src/i2s_driver.o
+ .debug_macro   0x0000000000000000      0x11f Src/i2s_driver.o
+ .debug_macro   0x0000000000000000    0x14fe1 Src/i2s_driver.o
+ .debug_macro   0x0000000000000000       0x43 Src/i2s_driver.o
+ .debug_macro   0x0000000000000000       0xbe Src/i2s_driver.o
+ .debug_macro   0x0000000000000000       0x28 Src/i2s_driver.o
+ .debug_line    0x0000000000000000      0x4c8 Src/i2s_driver.o
+ .debug_str     0x0000000000000000    0x81740 Src/i2s_driver.o
+ .comment       0x0000000000000000       0x54 Src/i2s_driver.o
+ .ARM.attributes
+                0x0000000000000000       0x33 Src/i2s_driver.o
  .group         0x0000000000000000        0xc Src/main.o
  .group         0x0000000000000000        0xc Src/main.o
  .group         0x0000000000000000        0xc Src/main.o
@@ -401,6 +450,7 @@ LOAD c:/st/stm32cubeide_1.6.1/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.exte
 LOAD c:/st/stm32cubeide_1.6.1/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.9-2020-q2-update.win32_1.5.0.202011040924/tools/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/crt0.o
 LOAD Src/SPI_driver.o
 LOAD Src/gpio_driver.o
+LOAD Src/i2s_driver.o
 LOAD Src/main.o
 LOAD Src/syscalls.o
 LOAD Src/sysmem.o
