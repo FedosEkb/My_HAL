@@ -10,6 +10,9 @@
 #include "stm32f2xx.h"
 
 
+#define LED_RED					9
+#define LED_BLUE				7
+
 /*				Macros for GPIO initialization			*/
 
 /*GPIO Mode setting values*/

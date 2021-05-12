@@ -1,5 +1,6 @@
 "Src/SPI_driver.o"
 "Src/gpio_driver.o"
+"Src/i2c_int_handler.o"
 "Src/i2s_driver.o"
 "Src/main.o"
 "Src/syscalls.o"

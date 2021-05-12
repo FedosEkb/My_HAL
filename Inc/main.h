@@ -75,8 +75,4 @@ static uint16_t Buffercmp(uint8_t* pBuffer1, uint8_t* pBuffer2, uint16_t BufferL
 #endif
 
 
-#define LED_RED					9
-#define LED_BLUE				7
-
-
 #endif /* MAIN_H_ */

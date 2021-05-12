@@ -147,7 +147,7 @@ typedef enum {
 #define HAL_I2C_ERROR_AF		((uint32_t)0x04)  /* AF error		*/
 #define HAL_I2C_ERROR_OVR		((uint32_t)0x08)  /* OVR error		*/
 #define HAL_I2C_ERROR_DMA		((uint32_t)0x10)  /* DMA error		*/
-#define HAL_I2C_ERROR_NONE		((uint32_t)0x20)  /* Timeout error	*/
+#define HAL_I2C_ERROR_TIMEOUT	((uint32_t)0x20)  /* Timeout error	*/
 
 
 /**

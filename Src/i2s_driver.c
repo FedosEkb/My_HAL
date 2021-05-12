@@ -71,8 +71,9 @@ static void hal_i2c_rise_time_configuration(I2C_TypeDef *i2cx, uint32_t freqrang
 }
 
 static void hal_i2c_clk_init(I2C_TypeDef *i2cx, uint32_t clkspeed, uint32_t duty_cycle) {
-	uint32_t pclk = I2C_PERIPHERAL_CLK_FREQ_8MHZ;
-	i2cx->CR2 |= (pclk);
+	uint32_t pclk = I2C_PERIPHERAL_CLK_FREQ_10MHZ;
+	i2cx->CR2 &= ~(0x3F);
+	i2cx->CR2 |= (0x3F & pclk);
 	hal_i2c_rise_time_configuration(i2cx, pclk, clkspeed);
 	hal_i2c_configure_ccr(i2cx, pclk, clkspeed, duty_cycle);
 }
@@ -99,11 +100,11 @@ void hal_i2c_manage_ack(I2C_TypeDef *i2cx, uint32_t ack_noack) {
 		i2cx->CR1 &= ~I2C_REG_CR1_ACK;
 }
 
-void hal_i2c_generate_start_condition(I2C_TypeDef *i2cx) {
+static void hal_i2c_generate_start_condition(I2C_TypeDef *i2cx) {
 	i2cx->CR1 |= I2C_REG_CR1_START_GEN;
 }
 
-void hal_i2c_generate_stop_condition(I2C_TypeDef *i2cx) {
+static void hal_i2c_generate_stop_condition(I2C_TypeDef *i2cx) {
 	i2cx->CR1 |= I2C_REG_CR1_STOP_GEN;
 }
 
@@ -114,28 +115,32 @@ static void hal_i2c_configure_tx_rx_interrupt(I2C_TypeDef *i2cx, uint32_t val) {
 		i2cx->CR2 &= ~I2C_REG_CR2_BUF_INT_ENABLE;
 }
 
- void hal_i2c_configure_error_interrupt(I2C_TypeDef *i2cx, uint32_t val) {
+static void hal_i2c_configure_error_interrupt(I2C_TypeDef *i2cx, uint32_t val) {
 	if (val)
 		i2cx->CR2 |= I2C_REG_CR2_ERR_INT_ENABLE;
 	else
 		i2cx->CR2 &= ~I2C_REG_CR2_ERR_INT_ENABLE;
 }
 
-void hal_i2c_configure_evt_interrupt(I2C_TypeDef *i2cx, uint32_t val) {
+static void hal_i2c_configure_evt_interrupt(I2C_TypeDef *i2cx, uint32_t val) {
 	if (val)
 		i2cx->CR2 |= I2C_REG_CR2_EVT_INT_ENABLE;
 	else
 		i2cx->CR2 &= ~I2C_REG_CR2_EVT_INT_ENABLE;
 }
 
-uint8_t is_bus_busy(I2C_TypeDef *i2cx) {
+static uint8_t i2c_bus_busy(I2C_TypeDef *i2cx) {
 	if (i2cx->SR2 & I2C_REG_SR2_BUS_BUSY_FLAG)
 		return 1;
 	else
 		return 0;
 }
 
-uint8_t i2c_wait_untill_sb_set(I2C_TypeDef *i2cx) {
+
+/*
+ * @brief wait for start condition
+ */
+static uint8_t i2c_wait_untill_sb_set(I2C_TypeDef *i2cx) {
 	//EV5: SB=1, cleared by reading SR1 register followed by writing DR register with Address.
 	if (i2cx->SR1 & I2C_REG_SR1_SB_FLAG) {
 		return 1;
@@ -143,7 +148,7 @@ uint8_t i2c_wait_untill_sb_set(I2C_TypeDef *i2cx) {
 	return 0;
 }
 
-uint8_t i2c_wait_untill_addr_set(I2C_TypeDef *i2cx) {
+static uint8_t i2c_wait_untill_addr_set(I2C_TypeDef *i2cx) {
 	//EV6: ADDR=1, cleared by reading SR1 register followed by reading SR2.
 
 	if (i2cx->SR1 & I2C_REG_SR1_ADDR_SENT_FLAG) {
@@ -184,6 +189,7 @@ void clear_addr_flag(I2C_TypeDef *i2cx) {
 	val = i2cx->SR1;
 	val = i2cx->SR2;
 
+	UNUSED(val);  // prevent compiler warning
 }
 
 
@@ -198,20 +204,19 @@ void clear_addr_flag(I2C_TypeDef *i2cx) {
 void hal_i2c_master_tx(i2c_handle_t *handle, uint8_t slave_address,
 		uint8_t *buffer, uint32_t len) {
 
-	hal_i2c_enable_peripheral(handle->Instance);
-
-	/* doesnt care for PE = 0 */
-	while (is_bus_busy(handle->Instance))
-		; //need to include timeout
-
-	/* Disable Pos */
-	handle->Instance->CR1 &= ~I2C_CR1_POS;
-
-	handle->State = HAL_I2C_STATE_BUSY_TX;
-
 	handle->pBuffPtr = buffer;
 	handle->XferCount = len;
 	handle->XferSize = len;
+	handle->State = HAL_I2C_STATE_BUSY_TX;
+
+	hal_i2c_enable_peripheral(handle->Instance);
+
+	/* doesnt care for PE = 0 */
+	while (i2c_bus_busy(handle->Instance))
+		; //need to include timeout
+
+	/* Disable Pos FEDOR: IS THIS really needed ??*/
+	handle->Instance->CR1 &= ~I2C_CR1_POS;
 
 	hal_i2c_generate_start_condition(handle->Instance);
 
@@ -227,7 +232,7 @@ void hal_i2c_master_tx(i2c_handle_t *handle, uint8_t slave_address,
 	while (!i2c_wait_untill_addr_set(handle->Instance))
 		;
 
-	clear_addr_flag(handle->Instance); // IS THIS really needed ??
+	clear_addr_flag(handle->Instance); // IS THIS really needed ?? FEDOR: Yes it need. It clear ADDR flag in SR1
 
 	/* enable the buff, err , event interrupts */
 	hal_i2c_configure_tx_rx_interrupt(handle->Instance, 1);
@@ -247,18 +252,17 @@ void hal_i2c_master_tx(i2c_handle_t *handle, uint8_t slave_address,
 void hal_i2c_master_rx(i2c_handle_t *handle, uint8_t slave_addr,
 		uint8_t *buffer, uint32_t len) {
 
-	hal_i2c_enable_peripheral(handle->Instance);
-
-	while (is_bus_busy(handle->Instance))
-		;
-
-	handle->Instance->CR1 &= ~I2C_CR1_POS;
-
-	handle->State = HAL_I2C_STATE_BUSY_RX;
-
 	handle->pBuffPtr = buffer;
 	handle->XferCount = len;
 	handle->XferSize = len;
+	handle->State = HAL_I2C_STATE_BUSY_RX;
+
+	hal_i2c_enable_peripheral(handle->Instance);
+
+	while (i2c_bus_busy(handle->Instance))
+		;
+
+	handle->Instance->CR1 &= ~I2C_CR1_POS;
 
 	handle->Instance->CR1 |= I2C_CR1_ACK;
 
@@ -276,7 +280,7 @@ void hal_i2c_master_rx(i2c_handle_t *handle, uint8_t slave_addr,
 	while (!i2c_wait_untill_addr_set(handle->Instance))
 		;
 
-	clear_addr_flag(handle->Instance); // IS THIS really needed ??
+	clear_addr_flag(handle->Instance); // IS THIS really needed ?? FEDOR: Yes it need. It clear ADDR flag in SR1
 
 	/* Enable the buff, err , event interrupts */
 	hal_i2c_configure_tx_rx_interrupt(handle->Instance, 1);
@@ -292,28 +296,27 @@ void hal_i2c_master_rx(i2c_handle_t *handle, uint8_t slave_addr,
  *  @param  len : len of the data to be TX in bait
  *  @retval None
  */
-void hal_i2c_slave_tx(i2c_handle_t *handle, uint8_t *buffer, uint32_t len)
-{
-	hal_i2c_enable_peripheral(handle->Instance);
-
-	//while(is_bus_busy(handle->Instance) );
-
-	handle->Instance->CR1 &= ~I2C_CR1_POS;
-
-	handle->State = HAL_I2C_STATE_BUSY_TX;
+void hal_i2c_slave_tx(i2c_handle_t *handle, uint8_t *buffer, uint32_t len) {
 
 	handle->pBuffPtr = buffer;
 	handle->XferCount = len;
 	handle->XferSize = len;
 
-	 /* Enable Address Acknowledge */
+	handle->State = HAL_I2C_STATE_BUSY_TX;
+
+	//while(i2c_bus_busy(handle->Instance) );
+
+	handle->Instance->CR1 &= ~I2C_CR1_POS;
+
+	hal_i2c_enable_peripheral(handle->Instance);
+
+	/* Enable Address Acknowledge */
 	handle->Instance->CR1 |= I2C_CR1_ACK;
 
-			/* ENABLE the buff, err , event interrupts */
-	hal_i2c_configure_tx_rx_interrupt(handle->Instance,1);
-	hal_i2c_configure_error_interrupt(handle->Instance,1);
-	hal_i2c_configure_evt_interrupt(handle->Instance,1);
-
+	/* ENABLE the buff, err , event interrupts */
+	hal_i2c_configure_tx_rx_interrupt(handle->Instance, 1);
+	hal_i2c_configure_error_interrupt(handle->Instance, 1);
+	hal_i2c_configure_evt_interrupt(handle->Instance, 1);
 }
 
 
@@ -324,34 +327,34 @@ void hal_i2c_slave_tx(i2c_handle_t *handle, uint8_t *buffer, uint32_t len)
  *  @param  len : len of the data to be Rx in bait
  *  @retval None
  */
-void hal_i2c_slave_rx(i2c_handle_t *handle, uint8_t *buffer, uint32_t len)
-{
-	uint32_t val;
-
-	hal_i2c_enable_peripheral(handle->Instance);
-
-	//while(is_bus_busy(handle->Instance) );
-
-	handle->Instance->CR1 &= ~I2C_CR1_POS;
-	handle->State = HAL_I2C_STATE_BUSY_RX;
-
+void hal_i2c_slave_rx(i2c_handle_t *handle, uint8_t *buffer, uint32_t len) {
 	handle->pBuffPtr = buffer;
 	handle->XferCount = len;
 	handle->XferSize = len;
 
+	handle->State = HAL_I2C_STATE_BUSY_RX;
 
+	uint32_t val;
+
+	//while(12c_bus_busy(handle->Instance) );
+
+	handle->Instance->CR1 &= ~I2C_CR1_POS;
+
+	hal_i2c_enable_peripheral(handle->Instance);
 
 	handle->Instance->CR1 |= I2C_CR1_ACK;
 
-		/* disable the buff, err , event interrupts */
-	hal_i2c_configure_tx_rx_interrupt(handle->Instance,1);
-	hal_i2c_configure_error_interrupt(handle->Instance,1);
-	hal_i2c_configure_evt_interrupt(handle->Instance,1);
+	/* disable the buff, err , event interrupts */
+	hal_i2c_configure_tx_rx_interrupt(handle->Instance, 1);
+	hal_i2c_configure_error_interrupt(handle->Instance, 1);
+	hal_i2c_configure_evt_interrupt(handle->Instance, 1);
 
 #if 0
 	val = handle->Instance->CR2;
 	val = handle->Instance->CR1;
 	val = handle->Instance->OAR1;
+#else
+	UNUSED(val);
 #endif
 }
 

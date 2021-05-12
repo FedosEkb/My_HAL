@@ -25,7 +25,7 @@
 /* SPI handle for our SPI device */
 spi_handle_t SpiHandle;
 
-int TestReady = 0;\
+int TestReady = 0;
 
 /* slave will reply this data, when master issues read command */
 uint8_t slave_reply_data[4]={ 0x55, 0xaa, 0x55, 0xaa};
