@@ -218,6 +218,9 @@ typedef enum{
 /*                                                                            */
 /******************************************************************************/
 
+
+void hal_i2c_enable_peripheral(I2C_TypeDef *i2cx);
+
 /*
  *  @brief Initialize the given I2C
  *  @param *handle : Handle to the I2C Peripheral, which the application wants to initialize

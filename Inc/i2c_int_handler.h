@@ -45,6 +45,7 @@ void HAL_I2C_MemTxCpltCallback(i2c_handle_t *hi2c);
    */
 void HAL_I2C_MasterTxCpltCallback(i2c_handle_t *hi2c);
 
+void hal_clear_stop_flag(i2c_handle_t *hi2c);
 
 /**
   * @brief  Master Tx Transfer completed callbacks.
@@ -116,7 +117,7 @@ static void I2C_MasterReceive_BTF(i2c_handle_t *hi2c);
   */
 static void I2C_Slave_ADDR(i2c_handle_t *hi2c);
 
-void hal_clear_stop_flag(i2c_handle_t *hi2c);
+
 
 
 /**

@@ -14,7 +14,7 @@
 /*                                                                            */
 /******************************************************************************/
 
-static void hal_i2c_enable_peripheral(I2C_TypeDef *i2cx) {
+void hal_i2c_enable_peripheral(I2C_TypeDef *i2cx) {
 	i2cx->CR1 |= I2C_REG_CR1_ENABLE_I2C;
 }
 

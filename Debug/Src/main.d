@@ -7,7 +7,7 @@ Src/main.o: ../Src/main.c ../Inc/main.h ../Inc/gpio_driver.h \
  C:/Users/User/STM32CubeIDE/workspace_1.6.1/My_HAL/Drivers/CMSIS/Include/cmsis_gcc.h \
  C:/Users/User/STM32CubeIDE/workspace_1.6.1/My_HAL/Drivers/CMSIS/Include/mpu_armv7.h \
  C:/Users/User/STM32CubeIDE/workspace_1.6.1/My_HAL/Drivers/CMSIS/Device/ST/STM32F2xx/Include/system_stm32f2xx.h \
- ../Inc/SPI_driver.h
+ ../Inc/SPI_driver.h ../Inc/i2c_driver.h ../Inc/i2c_int_handler.h
 
 ../Inc/main.h:
 
@@ -30,3 +30,7 @@ C:/Users/User/STM32CubeIDE/workspace_1.6.1/My_HAL/Drivers/CMSIS/Include/mpu_armv
 C:/Users/User/STM32CubeIDE/workspace_1.6.1/My_HAL/Drivers/CMSIS/Device/ST/STM32F2xx/Include/system_stm32f2xx.h:
 
 ../Inc/SPI_driver.h:
+
+../Inc/i2c_driver.h:
+
+../Inc/i2c_int_handler.h:
