@@ -73,7 +73,7 @@ uint8_t slave_rcv_cmd;
 
 /* Definition for I2Cx's NVIC */
 #define I2Cx_EV_IRQn                    I2C2_EV_IRQn
-#define I2Cx_EV_IRQHandler              I2C1_EV_IRQHandler
+#define I2Cx_EV_IRQHandler              I2C2_EV_IRQHandler
 
 #define I2Cx_ER_IRQn                    I2C2_ER_IRQn
 #define I2Cx_ER_IRQHandler              I2C2_ER_IRQHandler
@@ -112,8 +112,8 @@ uint8_t slave_rcv_cmd;
 #define SPI_MISO_PIN  GPIOI_PIN_2
 #define SPI_MOSI_PIN  GPIOI_PIN_3
 
-#define I2C1_SCL_LINE                   GPIOx_PIN_10
-#define I2C1_SDA_LINE                   GPIOx_PIN_11
+#define I2C1_SCL_LINE                   GPIOx_PIN_1
+#define I2C1_SDA_LINE                   GPIOx_PIN_0
 
 /* SPI alternate functionality value */
 #define GPIO_PIN_AF5_SPI2   0x05

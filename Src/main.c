@@ -318,7 +318,7 @@ int main(void)
 }
 
 
-void delay_gen(void) {
+void delay_gen(void) {;
 	uint32_t cnt = 800000;
 	while (cnt--)
 		;
@@ -327,7 +327,7 @@ void delay_gen(void) {
 void i2c_gpio_init(void) {
 	gpio_pin_conf_t i2c_pin;
 
-	_HAL_RCC_GPIOB_CLK_ENABLE();
+	_HAL_RCC_GPIOF_CLK_ENABLE();
 
 	i2c_pin.pin = I2C1_SCL_LINE;
 	i2c_pin.mode = GPIO_PIN_ALT_FUN_MODE;
@@ -335,13 +335,13 @@ void i2c_gpio_init(void) {
 	i2c_pin.pull = GPIO_PIN_PULL_UP;
 	i2c_pin.speed = GPIO_PIN_SPEED_HIGH;
 
-	hal_gpio_set_alt_function(GPIOB, I2C1_SCL_LINE, GPIO_PIN_AF4_I2C123);
-	hal_gpio_init(GPIOB, &i2c_pin);
+	hal_gpio_set_alt_function(GPIOF, I2C1_SCL_LINE, GPIO_PIN_AF4_I2C123);
+	hal_gpio_init(GPIOF, &i2c_pin);
 
 	i2c_pin.pin = I2C1_SDA_LINE;	// need change only pin number another have got same configuration
 
-	hal_gpio_set_alt_function(GPIOB, I2C1_SDA_LINE, GPIO_PIN_AF4_I2C123);
-	hal_gpio_init(GPIOB, &i2c_pin);
+	hal_gpio_set_alt_function(GPIOF, I2C1_SDA_LINE, GPIO_PIN_AF4_I2C123);
+	hal_gpio_init(GPIOF, &i2c_pin);
 }
 
 
