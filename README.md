@@ -2,4 +2,4 @@
 
 It's my attempt to study uCPU programming. 
 
-I will write here HAL librayy analog for selfteaching purpose. 
+I will write here HAL library analog for selfteaching purpose. 
