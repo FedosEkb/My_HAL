@@ -1,0 +1,17 @@
+uart_driver.c:23:6:hal_uart_enable	16	static
+uart_driver.c:33:6:hal_uart_disable	16	static
+uart_driver.c:44:6:hal_uart_enable_disable_tx	16	static
+uart_driver.c:59:6:hal_uart_enable_disable_rx	16	static
+uart_driver.c:74:6:hal_uart_configure_word_length	16	static
+uart_driver.c:90:6:hal_uart_configure_stop_bits	16	static
+uart_driver.c:112:6:hal_uart_configure_over_sampling	16	static
+uart_driver.c:126:6:hal_uart_set_baud_rate	24	static
+uart_driver.c:146:6:hal_uart_configure_txe_interrupt	16	static
+uart_driver.c:160:6:hal_uart_configure_rxne_interrupt	16	static
+uart_driver.c:174:6:hal_uart_configure_error_interrupt	16	static
+uart_driver.c:188:6:hal_uart_configure_parity_error_interrupt	16	static
+uart_driver.c:203:6:hal_uart_error_cb	16	static
+uart_driver.c:221:6:hal_uart_init	16	static
+uart_driver.c:260:6:hal_uart_tx	24	static
+uart_driver.c:284:6:hal_uart_rx	32	static
+uart_driver.c:312:6:hal_uart_handle_interrupt	24	static

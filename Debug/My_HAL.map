@@ -454,6 +454,91 @@ Discarded input sections
  .debug_frame   0x0000000000000000       0x34 Src/sysmem.o
  .ARM.attributes
                 0x0000000000000000       0x2d Src/sysmem.o
+ .group         0x0000000000000000        0xc Src/uart_driver.o
+ .group         0x0000000000000000        0xc Src/uart_driver.o
+ .group         0x0000000000000000        0xc Src/uart_driver.o
+ .group         0x0000000000000000        0xc Src/uart_driver.o
+ .group         0x0000000000000000        0xc Src/uart_driver.o
+ .group         0x0000000000000000        0xc Src/uart_driver.o
+ .group         0x0000000000000000        0xc Src/uart_driver.o
+ .group         0x0000000000000000        0xc Src/uart_driver.o
+ .group         0x0000000000000000        0xc Src/uart_driver.o
+ .group         0x0000000000000000        0xc Src/uart_driver.o
+ .group         0x0000000000000000        0xc Src/uart_driver.o
+ .group         0x0000000000000000        0xc Src/uart_driver.o
+ .group         0x0000000000000000        0xc Src/uart_driver.o
+ .group         0x0000000000000000        0xc Src/uart_driver.o
+ .group         0x0000000000000000        0xc Src/uart_driver.o
+ .group         0x0000000000000000        0xc Src/uart_driver.o
+ .group         0x0000000000000000        0xc Src/uart_driver.o
+ .group         0x0000000000000000        0xc Src/uart_driver.o
+ .text          0x0000000000000000        0x0 Src/uart_driver.o
+ .data          0x0000000000000000        0x0 Src/uart_driver.o
+ .bss           0x0000000000000000        0x0 Src/uart_driver.o
+ .text.hal_uart_enable
+                0x0000000000000000       0x1e Src/uart_driver.o
+ .text.hal_uart_disable
+                0x0000000000000000       0x1e Src/uart_driver.o
+ .text.hal_uart_enable_disable_tx
+                0x0000000000000000       0x38 Src/uart_driver.o
+ .text.hal_uart_enable_disable_rx
+                0x0000000000000000       0x38 Src/uart_driver.o
+ .text.hal_uart_configure_word_length
+                0x0000000000000000       0x34 Src/uart_driver.o
+ .text.hal_uart_configure_stop_bits
+                0x0000000000000000       0x64 Src/uart_driver.o
+ .text.hal_uart_configure_over_sampling
+                0x0000000000000000       0x26 Src/uart_driver.o
+ .text.hal_uart_set_baud_rate
+                0x0000000000000000       0x3c Src/uart_driver.o
+ .text.hal_uart_configure_txe_interrupt
+                0x0000000000000000       0x34 Src/uart_driver.o
+ .text.hal_uart_configure_rxne_interrupt
+                0x0000000000000000       0x34 Src/uart_driver.o
+ .text.hal_uart_configure_error_interrupt
+                0x0000000000000000       0x34 Src/uart_driver.o
+ .text.hal_uart_configure_parity_error_interrupt
+                0x0000000000000000       0x34 Src/uart_driver.o
+ .text.hal_uart_error_cb
+                0x0000000000000000       0x18 Src/uart_driver.o
+ .text.hal_uart_init
+                0x0000000000000000       0x90 Src/uart_driver.o
+ .text.hal_uart_tx
+                0x0000000000000000       0x48 Src/uart_driver.o
+ .text.hal_uart_rx
+                0x0000000000000000       0x5e Src/uart_driver.o
+ .text.hal_uart_handle_interrupt
+                0x0000000000000000      0x18c Src/uart_driver.o
+ .debug_info    0x0000000000000000      0x863 Src/uart_driver.o
+ .debug_abbrev  0x0000000000000000      0x22f Src/uart_driver.o
+ .debug_aranges
+                0x0000000000000000       0xa0 Src/uart_driver.o
+ .debug_ranges  0x0000000000000000       0x90 Src/uart_driver.o
+ .debug_macro   0x0000000000000000       0xea Src/uart_driver.o
+ .debug_macro   0x0000000000000000      0xaa2 Src/uart_driver.o
+ .debug_macro   0x0000000000000000       0x22 Src/uart_driver.o
+ .debug_macro   0x0000000000000000       0x8e Src/uart_driver.o
+ .debug_macro   0x0000000000000000       0x51 Src/uart_driver.o
+ .debug_macro   0x0000000000000000      0x103 Src/uart_driver.o
+ .debug_macro   0x0000000000000000       0x6a Src/uart_driver.o
+ .debug_macro   0x0000000000000000      0x1df Src/uart_driver.o
+ .debug_macro   0x0000000000000000       0x2e Src/uart_driver.o
+ .debug_macro   0x0000000000000000       0x22 Src/uart_driver.o
+ .debug_macro   0x0000000000000000       0x1c Src/uart_driver.o
+ .debug_macro   0x0000000000000000       0x22 Src/uart_driver.o
+ .debug_macro   0x0000000000000000       0xc3 Src/uart_driver.o
+ .debug_macro   0x0000000000000000      0xe49 Src/uart_driver.o
+ .debug_macro   0x0000000000000000      0x11f Src/uart_driver.o
+ .debug_macro   0x0000000000000000    0x14fe1 Src/uart_driver.o
+ .debug_macro   0x0000000000000000       0x43 Src/uart_driver.o
+ .debug_macro   0x0000000000000000       0xca Src/uart_driver.o
+ .debug_macro   0x0000000000000000      0x172 Src/uart_driver.o
+ .debug_line    0x0000000000000000      0x7f9 Src/uart_driver.o
+ .debug_str     0x0000000000000000    0x82453 Src/uart_driver.o
+ .comment       0x0000000000000000       0x54 Src/uart_driver.o
+ .debug_frame   0x0000000000000000      0x2a0 Src/uart_driver.o
+ .ARM.attributes
+                0x0000000000000000       0x2d Src/uart_driver.o
  .text          0x0000000000000000       0x14 Startup/startup_stm32f207ighx.o
  .data          0x0000000000000000        0x0 Startup/startup_stm32f207ighx.o
  .bss           0x0000000000000000        0x0 Startup/startup_stm32f207ighx.o
@@ -517,6 +602,7 @@ LOAD Src/i2s_driver.o
 LOAD Src/main.o
 LOAD Src/syscalls.o
 LOAD Src/sysmem.o
+LOAD Src/uart_driver.o
 LOAD Startup/startup_stm32f207ighx.o
 START GROUP
 LOAD c:/st/stm32cubeide_1.6.1/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.9-2020-q2-update.win32_1.5.0.202011040924/tools/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libc_nano.a
