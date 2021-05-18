@@ -14,4 +14,8 @@ uart_driver.c:203:6:hal_uart_error_cb	16	static
 uart_driver.c:221:6:hal_uart_init	16	static
 uart_driver.c:260:6:hal_uart_tx	24	static
 uart_driver.c:284:6:hal_uart_rx	32	static
-uart_driver.c:312:6:hal_uart_handle_interrupt	24	static
+uart_driver.c:323:13:hal_uart_handle_TXE_interrupt	24	static
+uart_driver.c:349:13:hal_uart_handle_RXNE_interrupt	24	static
+uart_driver.c:392:13:hal_uart_handle_TC_interrupt	16	static
+uart_driver.c:407:6:hal_uart_clear_error_flag	24	static
+uart_driver.c:423:6:hal_uart_handle_interrupt	24	static

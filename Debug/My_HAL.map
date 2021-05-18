@@ -507,13 +507,21 @@ Discarded input sections
                 0x0000000000000000       0x48 Src/uart_driver.o
  .text.hal_uart_rx
                 0x0000000000000000       0x5e Src/uart_driver.o
+ .text.hal_uart_handle_TXE_interrupt
+                0x0000000000000000       0x6e Src/uart_driver.o
+ .text.hal_uart_handle_RXNE_interrupt
+                0x0000000000000000       0xba Src/uart_driver.o
+ .text.hal_uart_handle_TC_interrupt
+                0x0000000000000000       0x3c Src/uart_driver.o
+ .text.hal_uart_clear_error_flag
+                0x0000000000000000       0x22 Src/uart_driver.o
  .text.hal_uart_handle_interrupt
                 0x0000000000000000      0x18c Src/uart_driver.o
- .debug_info    0x0000000000000000      0x863 Src/uart_driver.o
- .debug_abbrev  0x0000000000000000      0x22f Src/uart_driver.o
+ .debug_info    0x0000000000000000      0x87c Src/uart_driver.o
+ .debug_abbrev  0x0000000000000000      0x253 Src/uart_driver.o
  .debug_aranges
-                0x0000000000000000       0xa0 Src/uart_driver.o
- .debug_ranges  0x0000000000000000       0x90 Src/uart_driver.o
+                0x0000000000000000       0xc0 Src/uart_driver.o
+ .debug_ranges  0x0000000000000000       0xb0 Src/uart_driver.o
  .debug_macro   0x0000000000000000       0xea Src/uart_driver.o
  .debug_macro   0x0000000000000000      0xaa2 Src/uart_driver.o
  .debug_macro   0x0000000000000000       0x22 Src/uart_driver.o
@@ -533,10 +541,10 @@ Discarded input sections
  .debug_macro   0x0000000000000000       0x43 Src/uart_driver.o
  .debug_macro   0x0000000000000000       0xca Src/uart_driver.o
  .debug_macro   0x0000000000000000      0x172 Src/uart_driver.o
- .debug_line    0x0000000000000000      0x7f9 Src/uart_driver.o
- .debug_str     0x0000000000000000    0x82453 Src/uart_driver.o
+ .debug_line    0x0000000000000000      0x937 Src/uart_driver.o
+ .debug_str     0x0000000000000000    0x8245a Src/uart_driver.o
  .comment       0x0000000000000000       0x54 Src/uart_driver.o
- .debug_frame   0x0000000000000000      0x2a0 Src/uart_driver.o
+ .debug_frame   0x0000000000000000      0x338 Src/uart_driver.o
  .ARM.attributes
                 0x0000000000000000       0x2d Src/uart_driver.o
  .text          0x0000000000000000       0x14 Startup/startup_stm32f207ighx.o

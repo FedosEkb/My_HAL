@@ -300,9 +300,120 @@ void hal_uart_rx(uart_handle_t *uart_handle, uint8_t *buffer, uint32_t len) {
 	val = uart_handle->Instance->DR;
 	/* Enable the UART Data Register not empty Interrupt */
 	hal_uart_configure_rxne_interrupt(uart_handle->Instance, 1);
+	UNUSED(val);
 }
 
 
+
+
+
+/******************************************************************************/
+/*                                                                            */
+/*                      Interrupt handlers                                    */
+/*                                                                            */
+/******************************************************************************/
+
+
+/**
+  * @brief  handle the TXE interrupt
+  * @param  huart: Pointer to a uart_handle_t structure that contains
+  *                the configuration information for the specified UART module.
+  * @retval none
+  */
+static void hal_uart_handle_TXE_interrupt(uart_handle_t *huart) {
+	uint32_t tmp1 = 0;
+	uint8_t val;
+
+	tmp1 = huart->tx_state;
+	if (tmp1 == HAL_UART_STATE_BUSY_TX) {
+		val = (uint8_t) (*huart->pTxBuffPtr++ & (uint8_t) 0x00FF);
+		huart->Instance->DR = val;
+
+		if (--huart->TxXferCount == 0) {
+			/* Disable the UART TXE Interrupt */
+			huart->Instance->CR1 &= ~USART_REG_CR1_TXE_INT_EN;
+
+			/* Enable the UART Transmit Complete Interrupt */
+			huart->Instance->CR1 |= USART_REG_CR1_TCIE_INT_EN;
+		}
+	}
+}
+
+
+/**
+  * @brief  Handle the RXNE interrupt
+  * @param  huart: pointer to a uart_handle_t structure that contains
+  *                the configuration information for the specified UART module.
+  * @retval None
+  */
+static void hal_uart_handle_RXNE_interrupt(uart_handle_t *huart) {
+
+	uint32_t tmp1 = 0;
+	tmp1 = huart->rx_state;
+
+	if (tmp1 == HAL_UART_STATE_BUSY_RX) {
+		//is application using parity ??
+		if (huart->Init.Parity == UART_PARITY_NONE) {  //no parity
+			*huart->pRxBuffPtr++ = (uint8_t) (huart->Instance->DR
+					& (uint8_t) 0x00FF);
+		} else { //yes, dont read the most significant bit, because its a parity bit
+			*huart->pRxBuffPtr++ = (uint8_t) (huart->Instance->DR
+					& (uint8_t) 0x007F);
+		}
+
+		/* are we done with the reception ?? */
+		if (--huart->RxXferCount == 0) {
+			//yes, disable the RXNE interrupt
+			huart->Instance->CR1 &= ~USART_REG_CR1_RXNE_INT_EN;
+
+			/* Disable the UART Parity Error Interrupt */
+			huart->Instance->CR1 &= ~USART_REG_CR1_PEIE_INT_EN;
+
+			/* Disable the UART Error Interrupt: (Frame error, noise error, overrun error) */
+			huart->Instance->CR3 &= ~USART_REG_CR3_ERR_INT_EN;
+
+			//make the state ready for this handle
+			huart->rx_state = HAL_UART_STATE_READY;
+
+			/*call the applicaton callback */
+			if (huart->rx_cmp_cb)
+				huart->rx_cmp_cb(&huart->RxXferSize);
+		}
+	}
+}
+
+
+/**
+  * @brief Handle the Transmission Complete (TC) interrupt
+  * @param  huart: pointer to a uart_handle_t structure that contains
+  *                the configuration information for the specified UART module.
+  * @retval void
+  */
+static void hal_uart_handle_TC_interrupt(uart_handle_t *huart) {
+	/* Disable the UART Transmit Complete Interrupt */
+	huart->Instance->CR1 &= ~USART_REG_CR1_TCIE_INT_EN;
+	huart->tx_state = HAL_UART_STATE_READY;
+	/*call the application callback */
+	if (huart->tx_cmp_cb)
+		huart->tx_cmp_cb(&huart->TxXferSize);
+}
+
+/**
+	* @brief  Clear the error flag
+	* @param  *huart : pointer to a uart_handle_t structure that contains
+  *                the configuration information for the specified UART module.
+  * @retval None
+	*/
+void hal_uart_clear_error_flag(uart_handle_t *huart) {
+	uint32_t tmpreg;
+	tmpreg = huart->Instance->SR;
+	tmpreg = huart->Instance->DR;
+	UNUSED(tmpreg);
+}
+
+
+
+/*							Main interrupt handler							  */
 /**
   * @brief  This function handles UART interrupt request.
   * @param  huart: pointer to a uart_handle_t structure that contains
@@ -317,7 +428,6 @@ void hal_uart_handle_interrupt(uart_handle_t *huart) {
 	/* UART parity error interrupt occurred ------------------------------------*/
 	if ((tmp1) && (tmp2)) {
 		hal_uart_clear_error_flag(huart);
-
 		huart->ErrorCode |= HAL_UART_ERROR_PE;
 	}
 
@@ -326,7 +436,6 @@ void hal_uart_handle_interrupt(uart_handle_t *huart) {
 	/* UART frame error interrupt occurred -------------------------------------*/
 	if ((tmp1) && (tmp2)) {
 		hal_uart_clear_error_flag(huart);
-
 		huart->ErrorCode |= HAL_UART_ERROR_FE;
 	}
 
@@ -335,7 +444,6 @@ void hal_uart_handle_interrupt(uart_handle_t *huart) {
 	/* UART noise error interrupt occurred -------------------------------------*/
 	if ((tmp1) && (tmp2)) {
 		hal_uart_clear_error_flag(huart);
-
 		huart->ErrorCode |= HAL_UART_ERROR_NE;
 	}
 
@@ -344,7 +452,6 @@ void hal_uart_handle_interrupt(uart_handle_t *huart) {
 	/* UART Over-Run interrupt occurred ----------------------------------------*/
 	if ((tmp1) && (tmp2)) {
 		hal_uart_clear_error_flag(huart);
-
 		huart->ErrorCode |= HAL_UART_ERROR_ORE;
 	}
 
@@ -373,19 +480,8 @@ void hal_uart_handle_interrupt(uart_handle_t *huart) {
 		/* Set the UART state ready to be able to start again the process */
 		huart->tx_state = HAL_UART_STATE_READY;
 		huart->rx_state = HAL_UART_STATE_READY;
-
 		hal_uart_error_cb(huart);
 	}
 }
-
-
-/******************************************************************************/
-/*                                                                            */
-/*                      Interrupt handlers                                    */
-/*                                                                            */
-/******************************************************************************/
-
-
-
 
 
